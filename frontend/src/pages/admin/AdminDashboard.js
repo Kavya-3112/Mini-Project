@@ -143,30 +143,85 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
-
 const styles = {
     boxStyled: {
         backgroundColor: (theme) =>
             theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+                ? theme.palette.grey[50]  // Lighter background
+                : theme.palette.grey[800],  // Darker background for dark mode
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+        padding: 2,  // Padding for better spacing
+        transition: 'background-color 0.3s ease',  // Smooth transition effect on theme change
     },
     toolBarStyled: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        px: [1],
+        padding: '0 16px',  // More space on the right for the Account Menu
     },
     drawerStyled: {
-        display: "flex"
+        display: "flex",
+        width: '250px',  // Set a fixed width for better control
+        background: 'linear-gradient(to bottom, #3f51b5, #1a237e)', // Gradient effect
+        transition: 'width 0.3s ease-in-out',
+        '& .MuiList-root': {
+            paddingTop: 8,  // Add some padding on top of the list
+        },
     },
     hideDrawer: {
-        display: 'flex',
+        display: 'none',
         '@media (max-width: 600px)': {
             display: 'none',
         },
     },
+    // AppBar customization for more contrast
+    appBarStyled: {
+        backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+                ? '#fff'  // Lighter AppBar in light mode
+                : '#121212',  // Darker AppBar for dark mode
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  // Soft shadow for better contrast
+        transition: 'background-color 0.3s ease',
+    },
+    // Modify the Typography and icon button styles
+    iconButtonStyled: {
+        marginRight: '24px',
+        '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.08)',  // subtle hover effect
+        },
+    },
+    drawerListItem: {
+        '&:hover': {
+            backgroundColor: '#1a237e',  // Darker background on hover
+            color: '#fff',  // Change text color to white on hover
+        },
+    },
+    // Styling for Sidebar items
+    sideBarStyled: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingTop: 16,
+    },
+    sideBarItem: {
+        padding: '12px 16px',  // More padding for each item
+        fontSize: '16px',
+        fontWeight: 500,
+        transition: 'background-color 0.3s ease',
+        '&:hover': {
+            backgroundColor: '#3f51b5',  // Hover color to match the drawer
+            color: 'white',  // Ensure text is legible
+        },
+    },
+    // Modify the main content box for better spacing and readability
+    contentBoxStyled: {
+        margin: 0, 
+        padding: 4,
+        backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+                ? theme.palette.grey[50]
+                : theme.palette.grey[800],
+        borderRadius: 8, // Rounded corners for the main content box
+    }
 }

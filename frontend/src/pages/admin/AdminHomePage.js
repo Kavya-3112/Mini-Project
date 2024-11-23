@@ -1,4 +1,4 @@
-import { Container, Grid, Paper } from '@mui/material'
+import { Container, Grid, Paper } from '@mui/material';
 import SeeNotice from '../../components/SeeNotice';
 import Students from "../../assets/img1.png";
 import Classes from "../../assets/img2.png";
@@ -18,9 +18,9 @@ const AdminHomePage = () => {
     const { sclassesList } = useSelector((state) => state.sclass);
     const { teachersList } = useSelector((state) => state.teacher);
 
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user);
 
-    const adminID = currentUser._id
+    const adminID = currentUser._id;
 
     useEffect(() => {
         dispatch(getAllStudents(adminID));
@@ -39,40 +39,33 @@ const AdminHomePage = () => {
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Students} alt="Students" />
-                            <Title>
-                                Total Students
-                            </Title>
-                            <Data start={0} end={numberOfStudents} duration={2.5} />
+                            <Title>Total Students</Title>
+                            <Data start={0} end={numberOfStudents} duration={3} />
                         </StyledPaper>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Classes} alt="Classes" />
-                            <Title>
-                                Total Classes
-                            </Title>
-                            <Data start={0} end={numberOfClasses} duration={5} />
+                            <Title>Total Classes</Title>
+                            <Data start={0} end={numberOfClasses} duration={4} />
                         </StyledPaper>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Teachers} alt="Teachers" />
-                            <Title>
-                                Total Teachers
-                            </Title>
-                            <Data start={0} end={numberOfTeachers} duration={2.5} />
+                            <Title>Total Teachers</Title>
+                            <Data start={0} end={numberOfTeachers} duration={3} />
                         </StyledPaper>
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Fees} alt="Fees" />
-                            <Title>
-                                Fees Collection
-                            </Title>
-                            <Data start={0} end={23000} duration={2.5} prefix="$" />                        </StyledPaper>
+                            <Title>Fees Collection</Title>
+                            <Data start={0} end={23000} duration={4} prefix="$" />
+                        </StyledPaper>
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
-                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
                             <SeeNotice />
                         </Paper>
                     </Grid>
@@ -82,24 +75,59 @@ const AdminHomePage = () => {
     );
 };
 
-
 const StyledPaper = styled(Paper)`
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   height: 200px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 16px;
+    object-fit: contain;
+  }
 `;
 
 const Title = styled.p`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
 `;
 
 const Data = styled(CountUp)`
-  font-size: calc(1.3rem + .6vw);
-  color: green;
+  font-size: calc(1.5rem + 1vw);
+  font-weight: 700;
+  color: #388e3c;
+  animation: countUpAnimation 3s ease-out forwards;
+
+  @keyframes countUpAnimation {
+    0% {
+      transform: scale(1);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 `;
 
-export default AdminHomePage
+export default AdminHomePage;

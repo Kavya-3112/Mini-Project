@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import bgpic from "../assets/designlogin.jpg"
 import { LightPurpleButton } from '../components/buttonStyles';
 import styled from 'styled-components';
 import { loginUser } from '../redux/userRelated/userHandle';
@@ -13,15 +12,14 @@ import Popup from '../components/Popup';
 const defaultTheme = createTheme();
 
 const LoginPage = ({ role }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);
 
-    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);;
-
-    const [toggle, setToggle] = useState(false)
-    const [guestLoader, setGuestLoader] = useState(false)
-    const [loader, setLoader] = useState(false)
+    const [toggle, setToggle] = useState(false);
+    const [guestLoader, setGuestLoader] = useState(false);
+    const [loader, setLoader] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -44,12 +42,10 @@ const LoginPage = ({ role }) => {
                 if (!password) setPasswordError(true);
                 return;
             }
-            const fields = { rollNum, studentName, password }
-            setLoader(true)
-            dispatch(loginUser(fields, role))
-        }
-
-        else {
+            const fields = { rollNum, studentName, password };
+            setLoader(true);
+            dispatch(loginUser(fields, role));
+        } else {
             const email = event.target.email.value;
             const password = event.target.password.value;
 
@@ -59,9 +55,9 @@ const LoginPage = ({ role }) => {
                 return;
             }
 
-            const fields = { email, password }
-            setLoader(true)
-            dispatch(loginUser(fields, role))
+            const fields = { email, password };
+            setLoader(true);
+            dispatch(loginUser(fields, role));
         }
     };
 
@@ -74,58 +70,53 @@ const LoginPage = ({ role }) => {
     };
 
     const guestModeHandler = () => {
-        const password = "zxc"
+        const password = "zxc";
 
         if (role === "Admin") {
-            const email = "yogendra@12"
-            const fields = { email, password }
-            setGuestLoader(true)
-            dispatch(loginUser(fields, role))
+            const email = "yogendra@12";
+            const fields = { email, password };
+            setGuestLoader(true);
+            dispatch(loginUser(fields, role));
+        } else if (role === "Student") {
+            const rollNum = "1";
+            const studentName = "Dipesh Awasthi";
+            const fields = { rollNum, studentName, password };
+            setGuestLoader(true);
+            dispatch(loginUser(fields, role));
+        } else if (role === "Teacher") {
+            const email = "tony@12";
+            const fields = { email, password };
+            setGuestLoader(true);
+            dispatch(loginUser(fields, role));
         }
-        else if (role === "Student") {
-            const rollNum = "1"
-            const studentName = "Dipesh Awasthi"
-            const fields = { rollNum, studentName, password }
-            setGuestLoader(true)
-            dispatch(loginUser(fields, role))
-        }
-        else if (role === "Teacher") {
-            const email = "tony@12"
-            const fields = { email, password }
-            setGuestLoader(true)
-            dispatch(loginUser(fields, role))
-        }
-    }
+    };
 
     useEffect(() => {
         if (status === 'success' || currentUser !== null) {
             if (currentRole === 'Admin') {
                 navigate('/Admin/dashboard');
-            }
-            else if (currentRole === 'Student') {
+            } else if (currentRole === 'Student') {
                 navigate('/Student/dashboard');
             } else if (currentRole === 'Teacher') {
                 navigate('/Teacher/dashboard');
             }
-        }
-        else if (status === 'failed') {
-            setMessage(response)
-            setShowPopup(true)
-            setLoader(false)
-        }
-        else if (status === 'error') {
-            setMessage("Network Error")
-            setShowPopup(true)
-            setLoader(false)
-            setGuestLoader(false)
+        } else if (status === 'failed') {
+            setMessage(response);
+            setShowPopup(true);
+            setLoader(false);
+        } else if (status === 'error') {
+            setMessage("Network Error");
+            setShowPopup(true);
+            setLoader(false);
+            setGuestLoader(false);
         }
     }, [status, currentRole, navigate, error, response, currentUser]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{ height: '100vh', backgroundColor: '#6A1B9A' }}>  {/* Dark Purple Background */}
                 <CssBaseline />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderRadius: '10px' }}>
                     <Box
                         sx={{
                             my: 8,
@@ -133,6 +124,7 @@ const LoginPage = ({ role }) => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
+                            width: '100%',
                         }}
                     >
                         <Typography variant="h4" sx={{ mb: 2, color: "#2c2143" }}>
@@ -228,9 +220,7 @@ const LoginPage = ({ role }) => {
                                 variant="contained"
                                 sx={{ mt: 3 }}
                             >
-                                {loader ?
-                                    <CircularProgress size={24} color="inherit" />
-                                    : "Login"}
+                                {loader ? <CircularProgress size={24} color="inherit" /> : "Login"}
                             </LightPurpleButton>
                             <Button
                                 fullWidth
@@ -255,20 +245,6 @@ const LoginPage = ({ role }) => {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: `url(${bgpic})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
             </Grid>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -280,12 +256,14 @@ const LoginPage = ({ role }) => {
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </ThemeProvider>
     );
-}
+};
 
-export default LoginPage
+export default LoginPage;
 
 const StyledLink = styled(Link)`
   margin-top: 9px;
   text-decoration: none;
   color: #7f56da;
+  font-weight: 600;
 `;
+
