@@ -24,13 +24,13 @@ mongoose
   })
   .then(console.log("Connected to MongoDB"))
   .catch((err) => console.log("NOT CONNECTED TO NETWORK", err));
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
 
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "..","frontend", "build", "index.html"));
+  });
 app.use("/", Routes);
-app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "..","frontend", "build", "index.html"));
-});
 app.listen(PORT, () => {
   console.log(`Server started at port no. ${PORT}`);
 });
